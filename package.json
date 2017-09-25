@@ -1,0 +1,17 @@
+{
+  "name": "nodejstest",
+  "version": "1.0.0",
+  "description": "This is a test rest controller written using node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start_express": "node express.js"
+  },
+  "author": "sebastian.pacheco",
+  "license": "ISC",
+  "dependencies": {
+    "@angular/cli": "^1.4.3",
+    "body-parser": "^1.18.2",
+    "jsonwebtoken": "^8.0.1"
+  }
+}
