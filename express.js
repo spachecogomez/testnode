@@ -23,6 +23,7 @@ router.post('/v1/user/auth',function(req,res,next){
         res.status(200).send(signedBody);
     }else{
         console.log('The error is being processed');
+        res.set('Content-Type', 'application/json');
         res.status(400).send("{'error':'you need to provide the user and its password'}");
     }
 })
@@ -32,15 +33,21 @@ router.post('/v1/user/auth',function(req,res,next){
 router.get('/v1/user/validate', function(req , res){
     console.log('Using get function form the router');
     var decryptedKey;
+    res.set('Content-Type', 'application/json');
     jwt.verify(req.headers.token,privateKey,{
         ignoreExpiration: false
     },function(err, decrypt){
+        var error = {};
         if(err){
             console.log(err);
             if(err.message == 'jwt expired'){
-                res.status(401).send("{'status':'err', 'msg':'timeout log in again'}");
+                error.status = 'err';
+                error.msg= 'timeout log in again';
+                res.status(401).send(error);
             }else{
-                res.status(401).send("{'status':'err', 'msg':'Unauthorized request'}");
+                error.status = 'err';
+                error.msg= 'Unauthorized request';
+                res.status(401).send(error);
             }
         }
         decryptedKey = decrypt;
@@ -52,6 +59,11 @@ router.get('/v1/user/validate', function(req , res){
 
 //binding the router to the express app 
 app.use('/', router)
+
+app.get('/test',function(req,res){
+    console.log('this one is not getting the router involved')
+    res.status(200);
+})
 
 app.listen(8081, function(){
 
